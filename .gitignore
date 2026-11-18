@@ -1,0 +1,107 @@
+# =============================================================================
+# CRYPTO TRADING BOT — .gitignore
+# =============================================================================
+
+# --- SEGURANÇA: NUNCA versionar estes arquivos ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- FASE 3G: cache local de dados históricos (read-only) ---
+# Pode conter centenas de MB de CSV; sempre regenerável via
+# scripts/download_historical_data.py.
+data/historical/
+secrets/
+credentials/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Ambientes Virtuais ---
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# --- Testes e Cobertura ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+*.cover
+.hypothesis/
+nosetests.xml
+test-results/
+
+# --- Logs ---
+logs/
+*.log
+*.log.*
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --- IDE e Editores ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# --- Dados e Caches ---
+data/
+*.csv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+cache/
+.cache/
+
+# --- Build e Dist ---
+dist/
+*.whl
+*.tar.gz
+
+# --- Mypy ---
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# --- Ruff / Linters ---
+.ruff_cache/
+
+# --- pyproject / poetry ---
+poetry.lock
+# Mantenha requirements.txt versionado, mas não lock files gerados automaticamente
+
+# --- Backtest results (podem conter dados sensíveis) ---
+backtest_results/
+reports/
