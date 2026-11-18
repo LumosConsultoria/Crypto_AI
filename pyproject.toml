@@ -1,0 +1,109 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crypto-trading-bot"
+version = "0.1.0"
+description = "Bot de trading quantitativo/assistido por IA para criptomoedas — modo paper trading inicial"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+license = { text = "Proprietary" }
+authors = [
+    { name = "Thiago" }
+]
+keywords = ["crypto", "trading", "bot", "quantitative", "bitcoin", "bybit"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+
+dependencies = [
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+    "loguru>=0.7.2",
+    "pandas>=2.1.0",
+    "numpy>=1.26.0",
+    # pandas-ta: compatível com Python 3.12 (requer numba — instalar na FASE 3)
+    # pip install pandas-ta
+    "aiohttp>=3.9.0",
+    "httpx>=0.25.0",
+    "rich>=13.7.0",
+]
+
+[project.optional-dependencies]
+exchange = [
+    "pybit>=5.6.2",
+    "ccxt>=4.2.0",
+]
+backtesting = [
+    "vectorbt>=0.26.1",
+    "matplotlib>=3.8.0",
+    "plotly>=5.18.0",
+]
+ai = [
+    "openai>=1.10.0",
+]
+# FASE 43 - UI web descontinuada (CLI-first). O grupo [ui]
+# (fastapi/uvicorn/keyring) foi REMOVIDO: nenhuma dependencia de frontend.
+all = [
+    "crypto-trading-bot[exchange]",
+    "crypto-trading-bot[backtesting]",
+    "crypto-trading-bot[ai]",
+]
+
+[project.scripts]
+ctb-check = "scripts.check_config:main"
+ctb-paper = "scripts.run_paper_trading:main"
+ctb-backtest = "scripts.run_backtest:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+# --- pytest ---
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+asyncio_mode = "auto"
+
+# --- coverage ---
+[tool.coverage.run]
+source = ["src/crypto_trading_bot"]
+omit = ["*/tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 70
+
+# --- mypy ---
+[tool.mypy]
+python_version = "3.12"
+strict = false
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["notebooks/", "scripts/"]
+
+# --- ruff (linter) ---
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["crypto_trading_bot"]
